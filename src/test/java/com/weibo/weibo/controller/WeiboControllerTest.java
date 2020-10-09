@@ -2,6 +2,7 @@ package com.weibo.weibo.controller;
 
 import com.weibo.weibo.WeibowebApplication;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +39,15 @@ public class WeiboControllerTest {
         String keyword = "新冠";
         String keyword_utf8 = URLDecoder.decode(keyword, "UTF-8");
         String get_url = "/getWeibo/" + keyword_utf8 + "/1";
-        System.out.println(get_url);
-        String result = mockMvc.perform(MockMvcRequestBuilders.get(get_url))
+        log.info(get_url);
+        MvcResult mvcResult = null;
+        mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/get/weibo")
+                .contentType(MediaType.APPLICATION_XHTML_XML)
+                .param("新冠", "1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print()).andReturn()
-                .getResponse()
-                .getContentAsString();
-        log.info(result);
+                .andDo(MockMvcResultHandlers.print()).andReturn();
+        JSONObject jsonObject = new JSONObject(mvcResult.getResponse().getContentAsString());
+
+        log.info(jsonObject.toString());
     }
 }

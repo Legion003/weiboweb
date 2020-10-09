@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -25,15 +25,17 @@ public class WeiboControllerTest {
 
     @BeforeEach
     public void setup(){
+        log.info("测试开始...");
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
     @Test
     public void query() throws Exception{
-        mockMvc.perform(MockMvcRequestBuilders.get("/getWeibo/新冠/1"))
+        String result = mockMvc.perform(MockMvcRequestBuilders.get("/getWeibo/新冠/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print()).andReturn()
                 .getResponse()
                 .getContentAsString();
+        log.info(result);
     }
 }

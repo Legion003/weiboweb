@@ -38,7 +38,8 @@ public class WeiboControllerTest {
         String keyword = "新冠";
         String keyword_utf8 = URLDecoder.decode(keyword, "UTF-8");
         String get_url = "/getWeibo/" + keyword_utf8 + "/1";
-        String result = mockMvc.perform(MockMvcRequestBuilders.get(get_url).accept(MediaType.APPLICATION_JSON_UTF8))
+        System.out.println(get_url);
+        String result = mockMvc.perform(MockMvcRequestBuilders.get(get_url))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print()).andReturn()
                 .getResponse()

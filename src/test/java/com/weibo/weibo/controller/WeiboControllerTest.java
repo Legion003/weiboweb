@@ -41,9 +41,10 @@ public class WeiboControllerTest {
         String get_url = "/getWeibo/" + keyword_utf8 + "/1";
         log.info(get_url);
         MvcResult mvcResult = null;
-        mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/get/weibo")
-                .contentType(MediaType.APPLICATION_XHTML_XML)
-                .param("新冠", "1"))
+        mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/getWeibo")
+                .param("query", "新冠")
+                .param("page", "1")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print()).andReturn();
         JSONObject jsonObject = new JSONObject(mvcResult.getResponse().getContentAsString());

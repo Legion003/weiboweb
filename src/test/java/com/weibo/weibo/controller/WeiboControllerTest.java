@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.net.URLEncoder;
+
 @Slf4j
 @SpringBootTest()
 public class WeiboControllerTest {
@@ -31,7 +33,11 @@ public class WeiboControllerTest {
 
     @Test
     public void query() throws Exception{
-        String result = mockMvc.perform(MockMvcRequestBuilders.get("/getWeibo/新冠/1"))
+        String keyword = "新冠";
+        String keyword_gbk = URLEncoder.encode(keyword, "GBK");
+        String keyword_utf8 = URLEncoder.encode(keyword, "UTF-8");
+        String get_url = "/getWeibo/" + keyword_utf8 + "/1";
+        String result = mockMvc.perform(MockMvcRequestBuilders.get(get_url))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print()).andReturn()
                 .getResponse()
